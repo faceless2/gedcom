@@ -1,4 +1,4 @@
-= GEDCOM Java API
+# GEDCOM Java API
 
 A Java API for reading/writing/validating GEDCOM files, and for
 selecting a subset of records.
@@ -21,8 +21,9 @@ Features:
 * Select a subset of the individuals in the GEDCOM using a query language
 
 Examples:
+
+### Simple read
 ```java
-// Simple read
 InputStream in = new FileInputStream("file.gedcom");
 GEDCOM gedcom = new GEDCOM();
 gedcom.read(in);
@@ -38,8 +39,8 @@ for (Record r : gedcom.getRecords()) {
 }
 ```
 
-```
-// Verify and repair trivial errors
+### Verify and repair only trivial errors
+```java
 InputStream in = new FileInputStream("file.gedcom");
 GEDCOM gedcom = new GEDCOM();
 gedcom.read(in);
@@ -57,8 +58,8 @@ gedcom.write(out);
 out.close();
 ```
 
-```
-// Select a subset of records
+###  Select a subset of records
+```java
 InputStream in = new FileInputStream("file.gedcom");
 GEDCOM gedcom = new GEDCOM();
 gedcom.read(in);
@@ -80,6 +81,25 @@ gedcom.write(out);
 out.close();
 ```
 
+### Roundrip from GEDCOM to JSON and back to GEDCOM
+```java
+InputStream in = new FileInputStream("input.gedcom");
+GEDCOM gedcom = new GEDCOM();
+gedcom.read(in);
+Writer w = new OutputStreamWriter(new FileOutputStream("out.json"), "UTF-8");
+w.write(gedcom.toString());
+w.close();
+
+InputStream in = new FileInputStream("out.json");
+GEDCOM gedcom = new GEDCOM();
+gedcom.read(in);
+OutputStream out = new FileOutputStream("out.gedcom");
+gedcom.write(out);
+out.close();
+
+// input.gedcom and output.gedcom are identical except for line-lengths
+```
+
 There is also a Main class which can be executed to run most of these operations directly
 ```
 java -jar dist/gedcom-0.1-all.jar --help
@@ -88,18 +108,21 @@ java -jar dist/gedcom-0.1-all.jar --help
 ## ZPath
 The API comes with a ZPath implementation (the first based on a Model that is not XML or JSON; it was a good test).
 Queries are made against the GEDCOM file itself and match only INDI records. Some examples
-```
-|Query|Result
-|-|-
-|*|Select all records (remember only INDI records are selected)
-|*/name/surn|Select the NAME.SURN from all records
-|*[name/surn == "Smith"]|Select all records that ... have NAME.SURN of "Smith"
-|*[birt/date >= "JAN 1900" && birt/date <= "MAR 1900"]|... have a birthdate between 1 Jan and 31 Mar 1900
-|*[www == "https://www.WikiTree.com/wiki/Smith-1"]|... have a WWW child of this value
-|*[name/surn == "Smith"]/parents|... are the parent of anyone with NAME.SURN of "Smith"
-|*[name/surn == "Smith"]/children|... are the children of anyone with NAME.SURN of "Smith"
-|*[name/surn == "Smith"]/spouses|... are the spouses of anyone with NAME.SURN of "Smith"
-|*[name/surn == "Smith"]/ancestors|... are the ancestor of anyone with NAME.SURN of "Smith"
-|*[name/surn == "Smith"]/descendants|... are the descendant of anyone with NAME.SURN of "Smith"
-|*[name/surn == "Smith"]/ancestors/descendants|... are the descendant of an ancestors of anyone with NAME.SURN of "Smith"
+
+|Query|Result|
+|-|-|
+|`*`|Select all records (remember only INDI records are selected)
+|`*/name/surn`|Select the NAME.SURN from all records
+|`*[name/surn == "Smith"`]|Select all records that ... have NAME.SURN of "Smith"
+|`*[birt/date >= "JAN 1900" && birt/date <= "MAR 1900"`]|... have a birthdate between 1 Jan and 31 Mar 1900
+|`*[www == "https://www.WikiTree.com/wiki/Smith-1"`]|... have a WWW child of this value
+|`*[name/surn == "Smith"]/parents`|... are the parent of anyone with NAME.SURN of "Smith"
+|`*[name/surn == "Smith"]/children`|... are the children of anyone with NAME.SURN of "Smith"
+|`*[name/surn == "Smith"]/spouses`|... are the spouses of anyone with NAME.SURN of "Smith"
+|`*[name/surn == "Smith"]/ancestors`|... are the ancestor of anyone with NAME.SURN of "Smith"
+|`*[name/surn == "Smith"]/descendants`|... are the descendant of anyone with NAME.SURN of "Smith"
+|`*[name/surn == "Smith"]/ancestors/descendants`|... are the descendant of an ancestors of anyone with NAME.SURN of "Smith"
+|`*[name/surn == "Smith"]/ancestors/name/surn`|... are the NAME.SURN of an ancestor of anyone with NAME.SURN of "Smith"
+
+...and so on. https://zpath.me shows the grammar, the axis names are either a tag name or "parents", "children", "spouses", "ancestors", "descendants", "family" (meaning any parent, spouse or child) and "connection" (meaning any family of family, recursively)
 
