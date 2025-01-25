@@ -1,0 +1,463 @@
+GEDCOM :=
+0 <<HEADER>> {1:1}
+0 <<RECORD>> {0:M}
+0 TRLR {1:1}
+
+RECORD :=
+[
+n <<FAMILY_RECORD>> {1:1}
+|
+n <<INDIVIDUAL_RECORD>> {1:1}
+|
+n <<MULTIMEDIA_RECORD>> {1:1}
+|
+n <<REPOSITORY_RECORD>> {1:1}
+|
+n <<SHARED_NOTE_RECORD>> {1:1}
+|
+n <<SOURCE_RECORD>> {1:1}
+|
+n <<SUBMITTER_RECORD>> {1:1}
+]
+
+HEADER :=
+n HEAD {1:1}
++1 GEDC {1:1}
++2 VERS <Special> {1:1}
++1 SCHMA {0:1}
++2 TAG <Special> {0:M}
++1 SOUR <Special> {0:1}
++2 VERS <Special> {0:1}
++2 NAME <Text> {0:1}
++2 CORP <Text> {0:1}
++3 <<ADDRESS_STRUCTURE>> {0:1}
++3 PHON <Special> {0:M}
++3 EMAIL <Special> {0:M}
++3 FAX <Special> {0:M}
++3 WWW <Special> {0:M}
++2 DATA <Text> {0:1}
++3 DATE <DateExact> {0:1}
++4 TIME <Time> {0:1}
++3 COPR <Text> {0:1}
++1 DEST <Special> {0:1}
++1 DATE <DateExact> {0:1}
++2 TIME <Time> {0:1}
++1 SUBM @<XREF:SUBM>@ {0:1}
++1 COPR <Text> {0:1}
++1 LANG <Special> {0:1}
++1 PLAC {0:1}
++2 FORM <List:Text> {1:1}
++1 <<COMMENT_STRUCTURE>> {0:1}
+
+FAMILY_RECORD :=
+n @XREF:FAM@ FAM {1:1}
++1 RESN <List:Enum> {0:1}
++1 <<FAMILY_ATTRIBUTE_STRUCTURE>> {0:M}
++1 <<FAMILY_EVENT_STRUCTURE>> {0:M}
++1 <<NON_EVENT_STRUCTURE>> {0:M}
++1 HUSB @<XREF:INDI>@ {0:1}
++2 PHRASE <Text> {0:1}
++1 WIFE @<XREF:INDI>@ {0:1}
++2 PHRASE <Text> {0:1}
++1 CHIL @<XREF:INDI>@ {0:M}
++2 PHRASE <Text> {0:1}
++1 <<ASSOCIATION_STRUCTURE>> {0:M}
++1 SUBM @<XREF:SUBM>@ {0:M}
++1 <<LDS_SPOUSE_SEALING>> {0:M}
++1 <<IDENTIFIER_STRUCTURE>> {0:M}
++1 <<CHANGE_DATE>> {0:1}
++1 <<CREATION_DATE>> {0:1}
++1 <<NOTE_STRUCTURE>> {0:M}
++1 <<SOURCE_CITATION>> {0:M}
++1 <<MULTIMEDIA_LINK>> {0:M}
+
+INDIVIDUAL_RECORD :=
+n @XREF:INDI@ INDI {1:1}
++1 RESN <List:Enum> {0:1}
++1 <<PERSONAL_NAME_STRUCTURE>> {0:M}
++1 SEX <Enum> {0:1}
++1 <<INDIVIDUAL_ATTRIBUTE_STRUCTURE>> {0:M}
++1 <<INDIVIDUAL_EVENT_STRUCTURE>> {0:M}
++1 <<NON_EVENT_STRUCTURE>> {0:M}
++1 <<LDS_INDIVIDUAL_ORDINANCE>> {0:M}
++1 FAMC @<XREF:FAM>@ {0:M}
++2 PEDI <Enum> {0:1}
++3 PHRASE <Text> {0:1}
++2 STAT <Enum> {0:1}
++3 PHRASE <Text> {0:1}
++2 <<NOTE_STRUCTURE>> {0:M}
++1 FAMS @<XREF:FAM>@ {0:M}
++2 <<NOTE_STRUCTURE>> {0:M}
++1 SUBM @<XREF:SUBM>@ {0:M}
++1 <<ASSOCIATION_STRUCTURE>> {0:M}
++1 ALIA @<XREF:INDI>@ {0:M}
++2 PHRASE <Text> {0:1}
++1 ANCI @<XREF:SUBM>@ {0:M}
++1 DESI @<XREF:SUBM>@ {0:M}
++1 <<IDENTIFIER_STRUCTURE>> {0:M}
++1 <<CHANGE_DATE>> {0:1}
++1 <<CREATION_DATE>> {0:1}
++1 <<NOTE_STRUCTURE>> {0:M}
++1 <<SOURCE_CITATION>> {0:M}
++1 <<MULTIMEDIA_LINK>> {0:M}
+
+MULTIMEDIA_RECORD :=
+n @XREF:OBJE@ OBJE {1:1}
++1 RESN <List:Enum> {0:1}
++1 FILE <Special> {1:M}
++2 FORM <Special> {1:1}
++3 MEDI <Enum> {0:1}
++4 PHRASE <Text> {0:1}
++2 TITL <Text> {0:1}
++1 <<IDENTIFIER_STRUCTURE>> {0:M}
++1 <<NOTE_STRUCTURE>> {0:M}
++1 <<SOURCE_CITATION>> {0:M}
++1 <<CHANGE_DATE>> {0:1}
++1 <<CREATION_DATE>> {0:1}
+
+REPOSITORY_RECORD :=
+n @XREF:REPO@ REPO {1:1}
++1 NAME <Text> {1:1}
++1 <<ADDRESS_STRUCTURE>> {0:1}
++1 PHON <Special> {0:M}
++1 EMAIL <Special> {0:M}
++1 FAX <Special> {0:M}
++1 WWW <Special> {0:M}
++1 <<NOTE_STRUCTURE>> {0:M}
++1 <<IDENTIFIER_STRUCTURE>> {0:M}
++1 <<CHANGE_DATE>> {0:1}
++1 <<CREATION_DATE>> {0:1}
+
+SHARED_NOTE_RECORD :=
+n @XREF:SNOTE@ SNOTE <Text> {1:1}
++1 MIME <Special> {0:1}
++1 LANG <Special> {0:1}
++1 <<SOURCE_CITATION>> {0:M}
++1 <<IDENTIFIER_STRUCTURE>> {0:M}
++1 <<CHANGE_DATE>> {0:1}
++1 <<CREATION_DATE>> {0:1}
+
+SOURCE_RECORD :=
+n @XREF:SOUR@ SOUR {1:1}
++1 DATA {0:1}
++2 EVEN <List:Enum> {0:M}
++3 DATE <DatePeriod> {0:1}
++4 PHRASE <Text> {0:1}
++3 <<PLACE_STRUCTURE>> {0:1}
++2 AGNC <Text> {0:1}
++2 <<NOTE_STRUCTURE>> {0:M}
++1 AUTH <Text> {0:1}
++1 TITL <Text> {0:1}
++1 ABBR <Text> {0:1}
++1 PUBL <Text> {0:1}
++1 TEXT <Text> {0:1}
++2 MIME <Special> {0:1}
++2 LANG <Special> {0:1}
++1 <<SOURCE_REPOSITORY_CITATION>> {0:M}
++1 <<IDENTIFIER_STRUCTURE>> {0:M}
++1 <<CHANGE_DATE>> {0:1}
++1 <<CREATION_DATE>> {0:1}
++1 <<NOTE_STRUCTURE>> {0:M}
++1 <<MULTIMEDIA_LINK>> {0:M}
+
+SUBMITTER_RECORD :=
+n @XREF:SUBM@ SUBM {1:1}
++1 NAME <Text> {1:1}
++1 <<ADDRESS_STRUCTURE>> {0:1}
++1 PHON <Special> {0:M}
++1 EMAIL <Special> {0:M}
++1 FAX <Special> {0:M}
++1 WWW <Special> {0:M}
++1 <<MULTIMEDIA_LINK>> {0:M}
++1 LANG <Special> {0:M}
++1 <<IDENTIFIER_STRUCTURE>> {0:M}
++1 <<NOTE_STRUCTURE>> {0:M}
++1 <<CHANGE_DATE>> {0:1}
++1 <<CREATION_DATE>> {0:1}
+
+ADDRESS_STRUCTURE :=
+n ADDR <Special> {1:1}
++1 ADR1 <Special> {0:1}
++1 ADR2 <Special> {0:1}
++1 ADR3 <Special> {0:1}
++1 CITY <Special> {0:1}
++1 STAE <Special> {0:1}
++1 POST <Special> {0:1}
++1 CTRY <Special> {0:1}
+
+ASSOCIATION_STRUCTURE :=
+n ASSO @<XREF:INDI>@ {1:1}
++1 PHRASE <Text> {0:1}
++1 ROLE <Enum> {1:1}
++2 PHRASE <Text> {0:1}
++1 <<SOURCE_CITATION>> {0:M}
++1 <<NOTE_STRUCTURE>> {0:M}
+
+CHANGE_DATE :=
+n CHAN {1:1}
++1 DATE <DateExact> {1:1}
++2 TIME <Time> {0:1}
++1 <<COMMENT_STRUCTURE>> {0:M}
+
+COMMENT_STRUCTURE :=
+n COMM <Text> {1:1}
++1 MIME <Special> {0:1}
++1 LANG <Special> {0:1}
+
+CREATION_DATE :=
+n CREA {1:1}
++1 DATE <DateExact> {1:1}
++2 TIME <Time> {0:1}
+
+EVENT_DETAIL :=
+n DATE <DateValue> {0:1}
++1 TIME <Time> {0:1}
++1 PHRASE <Text> {0:1}
+n <<PLACE_STRUCTURE>> {0:1}
+n <<ADDRESS_STRUCTURE>> {0:1}
+n PHON <Special> {0:M}
+n EMAIL <Special> {0:M}
+n FAX <Special> {0:M}
+n WWW <Special> {0:M}
+n AGNC <Text> {0:1}
+n RELI <Text> {0:1}
+n CAUS <Text> {0:1}
+n RESN <List:Enum> {0:1}
+n SDATE <DateValue> {0:1}
++1 TIME <Time> {0:1}
++1 PHRASE <Text> {0:1}
+n <<ASSOCIATION_STRUCTURE>> {0:M}
+n <<NOTE_STRUCTURE>> {0:M}
+n <<SOURCE_CITATION>> {0:M}
+n <<MULTIMEDIA_LINK>> {0:M}
+n UID <Special> {0:M}
+
+FAMILY_ATTRIBUTE_STRUCTURE :=
+[
+n NCHI <Integer> {1:1}
++1 TYPE <Text> {0:1}
++1 <<FAMILY_EVENT_DETAIL>> {0:1}
+|
+n RESI <Text> {1:1}
++1 TYPE <Text> {0:1}
++1 <<FAMILY_EVENT_DETAIL>> {0:1}
+|
+n FACT <Text> {1:1}
++1 TYPE <Text> {1:1}
++1 <<FAMILY_EVENT_DETAIL>> {0:1}
+]
+
+FAMILY_EVENT_DETAIL :=
+n HUSB {0:1}
++1 AGE <Age> {1:1}
++2 PHRASE <Text> {0:1}
+n WIFE {0:1}
++1 AGE <Age> {1:1}
++2 PHRASE <Text> {0:1}
+n <<EVENT_DETAIL>> {0:1}
+
+FAMILY_EVENT_STRUCTURE :=
+[
+n [ ANUL | CENS | DIV | DIVF | ENGA | MARB | MARC | MARL | MARS ] {1:1}
++1 TYPE <Text> {0:1}
++1 <<FAMILY_EVENT_DETAIL>> {0:1}
+|
+n MARR {1:1}
++1 TYPE <Text> {0:1}
++1 <<FAMILY_EVENT_DETAIL>> {0:1}
+|
+n EVEN <Text> {1:1}
++1 TYPE <Text> {1:1}
++1 <<FAMILY_EVENT_DETAIL>> {0:1}
+]
+
+IDENTIFIER_STRUCTURE :=
+[
+n REFN <Special> {1:1}
++1 TYPE <Text> {0:1}
+|
+n UID <Special> {1:1}
+|
+n EXID <Special> {1:1}
++1 TYPE <Text> {0:1}
+]
+
+INDIVIDUAL_ATTRIBUTE_STRUCTURE :=
+[
+n [ CAST | DSCR | EDUC | NATI | OCCU | PROP | RELI | RESI | TITL ] <Text> {1:1}
++1 TYPE <Text> {0:1}
++1 <<INDIVIDUAL_EVENT_DETAIL>> {0:1}
+|
+n FACT <Text> {1:1}
++1 TYPE <Text> {1:1}
++1 <<INDIVIDUAL_EVENT_DETAIL>> {0:1}
+|
+n IDNO <Special> {1:1}
++1 TYPE <Text> {1:1}
++1 <<INDIVIDUAL_EVENT_DETAIL>> {0:1}
+|
+n SSN <Special> {1:1}
++1 TYPE <Text> {0:1}
++1 <<INDIVIDUAL_EVENT_DETAIL>> {0:1}
+|
+n [ NCHI | NMR ] <Integer> {1:1}
++1 TYPE <Text> {0:1}
++1 <<INDIVIDUAL_EVENT_DETAIL>> {0:1}
+]
+
+INDIVIDUAL_EVENT_DETAIL :=
+n <<EVENT_DETAIL>> {1:1}
+n AGE <Age> {0:1}
++1 PHRASE <Text> {0:1}
+
+INDIVIDUAL_EVENT_STRUCTURE :=
+[
+n [ BIRT | CHR ] {1:1}
++1 TYPE <Text> {0:1}
++1 <<INDIVIDUAL_EVENT_DETAIL>> {0:1}
++1 FAMC @<XREF:FAM>@ {0:1}
+|
+n DEAT {1:1}
++1 TYPE <Text> {0:1}
++1 <<INDIVIDUAL_EVENT_DETAIL>> {0:1}
+|
+n [ BURI | CREM | BAPM | BARM | BASM | BLES | CHRA | CONF | FCOM | ORDN | NATU | EMIG | IMMI | CENS | PROB | WILL | GRAD | RETI ] {1:1}
++1 TYPE <Text> {0:1}
++1 <<INDIVIDUAL_EVENT_DETAIL>> {0:1}
+|
+n ADOP {1:1}
++1 TYPE <Text> {0:1}
++1 <<INDIVIDUAL_EVENT_DETAIL>> {0:1}
++1 FAMC @<XREF:FAM>@ {0:1}
++2 ADOP <Enum> {0:1}
++3 PHRASE <Text> {0:1}
+|
+n EVEN <Text> {1:1}
++1 TYPE <Text> {1:1}
++1 <<INDIVIDUAL_EVENT_DETAIL>> {0:1}
+]
+
+LDS_INDIVIDUAL_ORDINANCE :=
+[
+n [ BAPL | CONL | ENDL | INIT ] {1:1}
++1 DATE <DateValue> {0:1}
++2 TIME <Time> {0:1}
++2 PHRASE <Text> {0:1}
++1 TEMP <Text> {0:1}
++1 <<PLACE_STRUCTURE>> {0:1}
++1 STAT <Enum> {0:1}
++2 DATE <DateExact> {1:1}
++3 TIME <Time> {0:1}
++1 <<NOTE_STRUCTURE>> {0:M}
++1 <<SOURCE_CITATION>> {0:M}
+|
+n SLGC {1:1}
++1 DATE <DateValue> {0:1}
++2 TIME <Time> {0:1}
++2 PHRASE <Text> {0:1}
++1 TEMP <Text> {0:1}
++1 <<PLACE_STRUCTURE>> {0:1}
++1 FAMC @<XREF:FAM>@ {1:1}
++1 STAT <Enum> {0:1}
++2 DATE <DateExact> {1:1}
++3 TIME <Time> {0:1}
++1 <<NOTE_STRUCTURE>> {0:M}
++1 <<SOURCE_CITATION>> {0:M}
+]
+
+LDS_SPOUSE_SEALING :=
+n SLGS {1:1}
++1 DATE <DateValue> {0:1}
++2 TIME <Time> {0:1}
++2 PHRASE <Text> {0:1}
++1 TEMP <Text> {0:1}
++1 <<PLACE_STRUCTURE>> {0:1}
++1 STAT <Enum> {0:1}
++2 DATE <DateExact> {1:1}
++3 TIME <Time> {0:1}
++1 <<NOTE_STRUCTURE>> {0:M}
++1 <<SOURCE_CITATION>> {0:M}
+
+MULTIMEDIA_LINK :=
+n OBJE @<XREF:OBJE>@ {1:1}
++1 CROP {0:1}
++2 TOP <Integer> {0:1}
++2 LEFT <Integer> {0:1}
++2 HEIGHT <Integer> {0:1}
++2 WIDTH <Integer> {0:1}
+
+NON_EVENT_STRUCTURE :=
+n NO <Enum> {1:1}
++1 DATE <DatePeriod> {0:1}
++2 PHRASE <Text> {0:1}
++1 <<NOTE_STRUCTURE>> {0:M}
++1 <<SOURCE_CITATION>> {0:M}
+
+NOTE_STRUCTURE :=
+[
+n NOTE <Text> {1:1}
++1 <<SOURCE_CITATION>> {0:M}
++1 MIME <Special> {0:1}
++1 LANG <Special> {0:1}
+|
+n SNOTE @<XREF:SNOTE>@ {1:1}
+]
+
+PERSONAL_NAME_PIECES :=
+n NPFX <Text> {0:1}                     # This is {0:M} in the spec, but that seems wrong
+n GIVN <Text> {0:1}                     # This is {0:M} in the spec, but that seems wrong
+n NICK <Text> {0:1}                     # This is {0:M} in the spec, but that seems wrong
+n SPFX <Text> {0:1}                     # This is {0:M} in the spec, but that seems wrong
+n SURN <Text> {0:1}                     # This is {0:M} in the spec, but that seems wrong
+n NSFX <Text> {0:1}                     # This is {0:M} in the spec, but that seems wrong
+
+PERSONAL_NAME_STRUCTURE :=
+n NAME <PersonalName> {1:1}
++1 TYPE <Enum> {0:1}
++2 PHRASE <Text> {0:1}
++1 <<PERSONAL_NAME_PIECES>> {0:M}       # This is {0:1} in the spec, but that seems wrong
++1 TRAN <PersonalName> {0:M}
++2 LANG <Special> {1:1}
++2 <<PERSONAL_NAME_PIECES>> {0:1}
++1 <<NOTE_STRUCTURE>> {0:M}
++1 <<SOURCE_CITATION>> {0:M}
+
+PLACE_STRUCTURE :=
+n PLAC <List:Text> {1:1}
++1 FORM <List:Text> {0:1}
++1 LANG <Special> {0:1}
++1 TRAN <List:Text> {0:M}
++2 LANG <Special> {1:1}
++1 MAP {0:1}
++2 LATI <Special> {1:1}
++2 LONG <Special> {1:1}
++1 EXID <Special> {0:M}
++2 TYPE <Text> {0:1}
++1 <<NOTE_STRUCTURE>> {0:M}
+
+SOURCE_CITATION :=
+n SOUR @<XREF:SOUR>@ {1:1}
++1 PAGE <Text> {0:1}
++1 DATA {0:1}
++2 DATE <DateValue> {0:1}
++3 TIME <Time> {0:1}
++3 PHRASE <Text> {0:1}
++2 TEXT <Text> {0:M}
++3 MIME <Special> {0:1}
++3 LANG <Special> {0:1}
++1 EVEN <Enum> {0:1}
++2 PHRASE <Text> {0:1}
++2 ROLE <Enum> {0:1}
++3 PHRASE <Text> {0:1}
++1 QUAY <Enum> {0:1}
++1 <<MULTIMEDIA_LINK>> {0:M}
++1 <<COMMENT_STRUCTURE>> {0:M}
++1 SNOTE @<XREF:SNOTE>@ {0:M}
+
+SOURCE_REPOSITORY_CITATION :=
+n REPO @<XREF:REPO>@ {1:1}
++1 <<NOTE_STRUCTURE>> {0:M}
++1 CALN <Special> {0:M}
++2 MEDI <Enum> {0:1}
++3 PHRASE <Text> {0:1}
+
